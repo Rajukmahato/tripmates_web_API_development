@@ -1,11 +1,18 @@
+import { ReactNode } from "react";
+
 export default function AuthLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
-    <section className="min-h-screen">
-      {children}
-    </section>
+    <div className="min-h-screen flex flex-col">
+      <div className="flex-1">{children}</div>
+
+      <footer className="text-center text-sm text-gray-500 py-6">
+        © 2025 TripMates. All rights reserved.
+      </footer>
+    </div>
   );
 }
+
