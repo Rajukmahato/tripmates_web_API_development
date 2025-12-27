@@ -18,7 +18,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           <div className="relative flex-1">
             <Image
-              src="/auth-illustration.png"
+              src="/images/image.png"
               alt="TripMates Illustration"
               fill
               className="object-contain"

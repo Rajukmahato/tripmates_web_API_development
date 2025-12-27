@@ -22,7 +22,7 @@ export default function LoginForm() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data: LoginType) => {
+  const onSubmit = async () => {
     startTransition(async () => {
       await new Promise((r) => setTimeout(r, 1500));
       router.push("/dashboard");
