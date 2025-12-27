@@ -1,6 +1,6 @@
 import z from "zod";
 
-/* -------------------- REGISTER SCHEMA -------------------- */
+
 export const registerScheme = z
   .object({
     fullName: z
@@ -28,7 +28,6 @@ export const registerScheme = z
 
 export type RegisterType = z.infer<typeof registerScheme>;
 
-/* -------------------- LOGIN SCHEMA -------------------- */
 export const loginSchema = z.object({
   phoneNumber: z
     .string()
