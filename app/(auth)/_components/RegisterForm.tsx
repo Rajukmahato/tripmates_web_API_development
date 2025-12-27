@@ -2,98 +2,61 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterType, registerScheme } from "../Schema";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Button } from "@/components/ui/button";
 import { useTransition } from "react";
 import Link from "next/link";
-import { registerSchema, RegisterType } from "../Schema";
-
 
 export default function RegisterForm() {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, touchedFields, isSubmitting },
-  } = useForm<RegisterType>({
-    resolver: zodResolver(registerSchema),
-    defaultValues: {
-      phoneNumber: "",
-      password: "",
-      confirmPassword: "",
-    },
+  const { register, handleSubmit, } = useForm<RegisterType>({
+    resolver: zodResolver(registerScheme),
   });
 
-  const onSubmit = async (data: RegisterType) => {
+  const onSubmit = async () => {
     startTransition(async () => {
       await new Promise((r) => setTimeout(r, 1500));
       router.push("/login");
     });
-    console.log("register", data);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Phone */}
-      <div>
-        <input
-          {...register("phoneNumber")}
-          placeholder="Phone number"
-          type="tel"
-          className="w-full rounded-xl border px-4 py-3 outline-none"
-        />
-        {touchedFields.phoneNumber && errors.phoneNumber && (
-          <p className="text-sm text-red-500 mt-1">
-            {errors.phoneNumber.message}
-          </p>
-        )}
-      </div>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FieldGroup>
+        <Field>
+          <FieldLabel>Full Name</FieldLabel>
+          <Input {...register("fullName")} />
+        </Field>
 
-      {/* Password */}
-      <div>
-        <input
-          {...register("password")}
-          placeholder="Password"
-          type="password"
-          className="w-full rounded-xl border px-4 py-3 outline-none"
-        />
-        {touchedFields.password && errors.password && (
-          <p className="text-sm text-red-500 mt-1">
-            {errors.password.message}
-          </p>
-        )}
-      </div>
+        <Field>
+          <FieldLabel>Phone Number</FieldLabel>
+          <Input {...register("phoneNumber")} />
+        </Field>
 
-      {/* Confirm Password */}
-      <div>
-        <input
-          {...register("confirmPassword")}
-          placeholder="Confirm password"
-          type="password"
-          className="w-full rounded-xl border px-4 py-3 outline-none"
-        />
-        {touchedFields.confirmPassword &&
-          errors.confirmPassword && (
-            <p className="text-sm text-red-500 mt-1">
-              {errors.confirmPassword.message}
-            </p>
-          )}
-      </div>
+        <Field>
+          <FieldLabel>Password</FieldLabel>
+          <Input type="password" {...register("Password")} />
+        </Field>
 
-      {/* Button */}
-      <button
-        disabled={isSubmitting || pending}
-        className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold"
-      >
-        {pending ? "Creating account..." : "Sign up"}
-      </button>
+        <Field>
+          <FieldLabel>Confirm Password</FieldLabel>
+          <Input type="password" {...register("confirmPassword")} />
+        </Field>
+      </FieldGroup>
 
-      {/* Footer */}
-      <p className="text-center text-sm text-gray-500">
+      <Button className="w-full mt-10 bg-purple-600 hover:bg-purple-700">
+        {pending ? "Creating Account..." : "Create Account"}
+      </Button>
+
+      <p className="text-center mt-4 text-sm">
         Already have an account?{" "}
-        <Link href="/login" className="text-blue-600">
-          Log in
+        <Link href="/login" className="text-purple-600 font-medium">
+          Login
         </Link>
       </p>
     </form>
