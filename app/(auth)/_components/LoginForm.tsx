@@ -7,12 +7,14 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import Link from "next/link";
 import { handleLogin } from "@/lib/actions/auth-action";
+import { useAuth } from "@/context/AuthContext";
 
 export default function LoginForm() {
   const router = useRouter();
+  const { checkAuth } = useAuth();
   const {
     register,
     handleSubmit,
@@ -20,29 +22,33 @@ export default function LoginForm() {
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      phoneNumber: "",
+      email: "",
       password: "",
     },
   });
 
   const [error, setError] = useState("");
   const [pending, setTransition] = useTransition();
+  const [shouldRedirect, setShouldRedirect] = useState(false);
+
+  useEffect(() => {
+    if (shouldRedirect) {
+      router.push("/dashboard");
+    }
+  }, [shouldRedirect, router]);
 
   const onSubmit = async (values: LoginType) => {
     setError("");
+    setShouldRedirect(false);
 
-    // GOTO
     setTransition(async () => {
       try {
         const response = await handleLogin(values);
         if (!response.success) {
           throw new Error(response.message);
         }
-        if (response.success) {
-          router.push("/dashboard");
-        } else {
-          setError("Login failed");
-        }
+        await checkAuth();
+        setShouldRedirect(true);
       } catch (err: Error | any) {
         setError(err.message || "Login failed");
       }
@@ -55,18 +61,17 @@ export default function LoginForm() {
 
       <FieldGroup>
         <Field className="space-y-0">
-          <FieldLabel>Phone Number</FieldLabel>
+          <FieldLabel>Email</FieldLabel>
           <Input
-            {...register("phoneNumber")}
-            placeholder="eg: 9876543210"
-            autoComplete="off"
-            inputMode="numeric"
-            type="tel"
+            {...register("email")}
+            placeholder="jane@example.com"
+            type="email"
+            autoComplete="email"
             disabled={isSubmitting}
           />
-          {touchedFields.phoneNumber && errors.phoneNumber && (
+          {touchedFields.email && errors.email && (
             <p className="text-sm text-destructive">
-              {errors.phoneNumber.message}
+              {errors.email.message}
             </p>
           )}
         </Field>

@@ -6,7 +6,7 @@ import { cookies } from "next/headers"
 interface UserData {
     _id: string;
     email: string;
-    username: string;
+    username?: string;
     role: string;
     createdAt: string;
     updatedAt: string;
