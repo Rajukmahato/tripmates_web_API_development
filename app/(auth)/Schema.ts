@@ -2,6 +2,7 @@ import z from "zod";
 
 export const registerScheme = z.object({
     fullName: z.string().min(2, { message: "minimim 2 character is needed" }),
+    email: z.string().email({ message: "Invalid email address" }),
     phoneNumber: z
         .string()
         .regex(/^[0-9]{10}$/, {
@@ -24,11 +25,7 @@ export type RegisterType = z.infer<typeof registerScheme>;
 
 
 export const loginSchema = z.object({
-    phoneNumber: z
-        .string()
-        .regex(/^[0-9]{10}$/, {
-            message: "Phone number must be exactly 10 digits",
-        }),
+    email: z.string().email({ message: "Invalid email address" }),
     password: z
         .string()
         .min(6, "Minimum 6 characters")
