@@ -7,12 +7,14 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import Link from "next/link";
 import { handleRegister } from "@/lib/actions/auth-action";
+import { useAuth } from "@/context/AuthContext";
 
 export default function RegisterForm() {
   const router = useRouter();
+  const { checkAuth } = useAuth();
   const {
     register,
     handleSubmit,
@@ -21,6 +23,7 @@ export default function RegisterForm() {
     resolver: zodResolver(registerScheme),
     defaultValues: {
       fullName: "",
+      email: "",
       phoneNumber: "",
       password: "",
       confirmPassword: "",
@@ -29,26 +32,30 @@ export default function RegisterForm() {
 
   const [error, setError] = useState("");
   const [pending, setTransition] = useTransition();
+  const [shouldRedirect, setShouldRedirect] = useState(false);
+
+  useEffect(() => {
+    if (shouldRedirect) {
+      router.push("/login");
+    }
+  }, [shouldRedirect, router]);
 
   const onSubmit = async (values: RegisterType) => {
     setError("");
+    setShouldRedirect(false);
+
     setTransition(async () => {
       try {
         const response = await handleRegister(values);
         if (!response.success) {
           throw new Error(response.message);
         }
-        if (response.success) {
-          router.push("/login");
-        } else {
-          setError("Registration failed");
-        }
+        await checkAuth();
+        setShouldRedirect(true);
       } catch (err: Error | any) {
         setError(err.message || "Registration failed");
       }
     });
-    // GO TO LOGIN PAGE
-    console.log("register", values);
   };
 
   return (
@@ -67,6 +74,22 @@ export default function RegisterForm() {
           {touchedFields.fullName && errors.fullName && (
             <p className="text-sm text-destructive">
               {errors.fullName.message}
+            </p>
+          )}
+        </Field>
+
+        <Field className="space-y-0">
+          <FieldLabel>Email</FieldLabel>
+          <Input
+            {...register("email")}
+            placeholder="jane@example.com"
+            type="email"
+            autoComplete="email"
+            disabled={isSubmitting}
+          />
+          {touchedFields.email && errors.email && (
+            <p className="text-sm text-destructive">
+              {errors.email.message}
             </p>
           )}
         </Field>
