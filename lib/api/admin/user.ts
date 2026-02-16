@@ -18,10 +18,10 @@ export interface PaginatedUsersResponse {
     success: boolean;
     data: User[];
     pagination: {
-        page: number;
+        currentPage: number | null;
+        totalPages: number;
+        totalCount: number;
         limit: number;
-        total: number;
-        pages: number;
     };
 }
 
