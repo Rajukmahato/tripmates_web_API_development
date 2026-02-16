@@ -53,7 +53,7 @@ export default function UsersTable({ users, onDelete, deleting }: UsersTableProp
                 <div className="flex items-center gap-3">
                   <Avatar
                     name={user.fullName}
-                    profileImagePath={user.profileImagePath}
+                    profileImagePath={user.profileImage}
                     size="sm"
                   />
                   <span className="font-medium">{user.fullName}</span>

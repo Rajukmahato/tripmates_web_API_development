@@ -31,8 +31,8 @@ export default function AdminUsersPage() {
     try {
       const response: PaginatedUsersResponse = await getAllUsers(page, limit);
       setUsers(response.data);
-      setTotalPages(response.pagination.pages);
-      setTotal(response.pagination.total);
+      setTotalPages(response.pagination.totalPages);
+      setTotal(response.pagination.totalCount);
     } catch (err) {
       const error = err as { response?: { data?: { message?: string } } };
       setError(
@@ -108,8 +108,7 @@ export default function AdminUsersPage() {
         />
 
         {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="mt-6 flex items-center justify-between border-t pt-4">
+        <div className="mt-6 flex items-center justify-between border-t pt-4">
             <p className="text-sm text-muted-foreground">
               Page {page} of {totalPages}
             </p>
@@ -130,7 +129,6 @@ export default function AdminUsersPage() {
               </Button>
             </div>
           </div>
-        )}
       </Card>
 
       {/* Delete Confirmation Dialog */}

@@ -126,7 +126,7 @@ export default function UserDetailPage() {
           <div className="flex items-center gap-4">
             <Avatar
               name={user.fullName}
-              profileImagePath={user.profileImagePath}
+              profileImagePath={user.profileImage}
               size="lg"
             />
             <div>
