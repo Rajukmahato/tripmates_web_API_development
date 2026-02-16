@@ -93,6 +93,15 @@ export default function LoginForm() {
         </Field>
       </FieldGroup>
 
+      <div className="text-right">
+        <Link
+          href="/forget-password"
+          className="text-sm text-purple-600 hover:underline"
+        >
+          Forgot password?
+        </Link>
+      </div>
+
       <Button
         type="submit"
         disabled={isSubmitting || pending}
