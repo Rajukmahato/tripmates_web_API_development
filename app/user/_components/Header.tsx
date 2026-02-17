@@ -18,6 +18,12 @@ export default function UserHeader() {
           <Link href="/user/dashboard" className="hover:text-primary transition">
             Dashboard
           </Link>
+          <Link href="/user/trips" className="hover:text-primary transition">
+            Trips
+          </Link>
+          <Link href="/requests/received" className="hover:text-primary transition">
+            Requests
+          </Link>
           <Link href="/user/profile" className="hover:text-primary transition">
             Profile
           </Link>

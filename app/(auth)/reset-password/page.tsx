@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import ResetPasswordForm from "../_components/ResetPasswordForm";
 
@@ -15,7 +16,9 @@ export default function Page() {
         </CardDescription>
       </CardHeader>
 
-      <ResetPasswordForm />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ResetPasswordForm />
+      </Suspense>
     </div>
   );
 }
