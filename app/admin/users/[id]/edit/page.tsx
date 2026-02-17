@@ -62,7 +62,7 @@ export default function UserEditPage() {
           setValue("phoneNumber", userData.phoneNumber || "");
           setValue("bio", userData.bio || "");
           setValue("location", userData.location || "");
-          setCurrentImagePath(userData.profileImagePath || null);
+          setCurrentImagePath(userData.profileImage || null);
         }
       } catch (err) {
         const error = err as { response?: { data?: { message?: string } } };

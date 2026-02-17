@@ -78,43 +78,51 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <div className="container mx-auto p-6">
-      {/* Header */}
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">User Management</h1>
-          <p className="mt-2 text-muted-foreground">
-            Manage all users in the system ({total} total)
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 p-6 animate-fadeIn">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-50">
+              Users
+            </h1>
+            <p className="mt-2 text-muted-foreground text-base">
+              Manage all system users ({total} total)
+            </p>
+          </div>
+          <Link href="/admin/users/create">
+            <Button size="lg">
+              Add User
+            </Button>
+          </Link>
         </div>
-        <Link href="/admin/users/create">
-          <Button>Create User</Button>
-        </Link>
-      </div>
 
-      {/* Error Message */}
-      {error && (
-        <div className="mb-6 rounded-md bg-red-50 p-4 dark:bg-red-900/20">
-          <p className="text-sm text-red-800 dark:text-red-400">{error}</p>
-        </div>
-      )}
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4 animate-slideInDown">
+            <p className="text-sm text-red-800 dark:text-red-300 font-medium">{error}</p>
+          </div>
+        )}
 
-      {/* Users Table */}
-      <Card className="p-6">
-        <UsersTable
-          users={users}
-          onDelete={handleDeleteClick}
-          deleting={deleting}
-        />
+        {/* Users Table Card */}
+        <Card variant="elevated" className="overflow-hidden">
+          <div className="overflow-x-auto">
+            <UsersTable
+              users={users}
+              onDelete={handleDeleteClick}
+              deleting={deleting}
+            />
+          </div>
 
-        {/* Pagination */}
-        <div className="mt-6 flex items-center justify-between border-t pt-4">
-            <p className="text-sm text-muted-foreground">
-              Page {page} of {totalPages}
+          {/* Pagination */}
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between border-t pt-6 gap-4">
+            <p className="text-sm text-muted-foreground font-medium">
+              Page <span className="font-bold text-foreground">{page}</span> of <span className="font-bold text-foreground">{totalPages}</span> • <span className="font-bold text-blue-600">{total}</span> users
             </p>
             <div className="flex gap-2">
               <Button
                 variant="outline"
+                size="sm"
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1 || loading}
               >
@@ -122,6 +130,7 @@ export default function AdminUsersPage() {
               </Button>
               <Button
                 variant="outline"
+                size="sm"
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages || loading}
               >
@@ -129,8 +138,8 @@ export default function AdminUsersPage() {
               </Button>
             </div>
           </div>
-      </Card>
-
+        </Card>
+      </div>
       {/* Delete Confirmation Dialog */}
       <Dialog
         open={deleteDialog.open}

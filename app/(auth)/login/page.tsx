@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <div className="space-y-6">
       <CardHeader>
-        <CardTitle className="text-xl font-semibold text-purple-600">
+        <CardTitle className="text-xl font-semibold text-blue-600">
           Login to TripMates
         </CardTitle>
         <CardDescription>
