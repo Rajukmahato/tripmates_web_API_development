@@ -3,16 +3,15 @@ import { API } from "./endpoints";
 
 export interface Trip {
   _id: string;
-  title: string;
-  description: string;
   destination: string;
+  description: string;
   startDate: string;
   endDate: string;
   budget: number;
-  maxMembers: number;
-  currentMembers: number;
-  createdBy: string;
-  image?: string;
+  travelType: "adventure" | "leisure" | "business" | "backpacking";
+  groupSize: number;
+  status: "open" | "closed";
+  creator: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -71,21 +70,5 @@ export const updateTrip = async (tripId: string, tripData: Partial<Trip>): Promi
  */
 export const deleteTrip = async (tripId: string): Promise<{ success: boolean; message: string }> => {
   const response = await axiosInstance.delete(API.TRIPS.DELETE(tripId));
-  return response.data;
-};
-
-/**
- * Join trip
- */
-export const joinTrip = async (tripId: string): Promise<TripResponse> => {
-  const response = await axiosInstance.post(API.TRIPS.JOIN(tripId), {});
-  return response.data;
-};
-
-/**
- * Leave trip
- */
-export const leaveTrip = async (tripId: string): Promise<{ success: boolean; message: string }> => {
-  const response = await axiosInstance.post(API.TRIPS.LEAVE(tripId), {});
   return response.data;
 };

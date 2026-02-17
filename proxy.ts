@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAuthToken, getUserData } from "./lib/cookie";
 
 
-const publicRoutes = ['/login', '/register', '/forget-password', '/reset-password'];
+const publicRoutes = ['/login', '/register', '/forget-password', '/reset-password', '/about'];
 const adminRoutes = ['/admin'];
-const userRoutes = ['/user'];
+const userRoutes = ['/user', '/requests'];
 
 export async function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
@@ -45,7 +45,10 @@ export const config = {
         // what routes to protect/match
         "/admin/:path*",
         "/user/:path*",
+        "/requests/:path*",
         "/login",
-        "/register"
+        "/register",
+        "/forget-password",
+        "/reset-password"
     ]
 }

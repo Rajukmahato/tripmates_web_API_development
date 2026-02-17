@@ -22,7 +22,13 @@ export const API = {
         CREATE: '/api/trips',
         UPDATE: (id: string) => `/api/trips/${id}`,
         DELETE: (id: string) => `/api/trips/${id}`,
-        JOIN: (id: string) => `/api/trips/${id}/join`,
-        LEAVE: (id: string) => `/api/trips/${id}/leave`,
+    },
+    PARTNER_REQUESTS: {
+        SEND: '/api/partner-requests',
+        RECEIVED: '/api/partner-requests/received',
+        SENT: '/api/partner-requests/sent',
+        GET: (id: string) => `/api/partner-requests/${id}`,
+        UPDATE_STATUS: (id: string) => `/api/partner-requests/${id}/status`,
+        CANCEL: (id: string) => `/api/partner-requests/${id}`,
     }
 }
