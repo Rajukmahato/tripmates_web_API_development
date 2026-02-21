@@ -1,0 +1,36 @@
+import z from "zod";
+
+export const registerScheme = z.object({
+    fullName: z.string().min(2, { message: "minimim 2 character is needed" }),
+    email: z.string().email({ message: "Invalid email address" }),
+    phoneNumber: z
+        .string()
+        .regex(/^[0-9]{10}$/, {
+            message: "Phone number must be exactly 10 digits",
+        }),
+    password: z
+        .string()
+        .min(6, "Minimum 6 characters")
+        .regex(/[A-Za-z]/, "Must include a letter")
+        .regex(/[0-9]/, "Must include a number"),
+    confirmPassword: z.string(),
+}).refine(
+    (data) => data.password === data.confirmPassword,
+    {
+        message: "Passwords do not match", path: ["confirmPassword"]
+    }
+);
+
+export type RegisterType = z.infer<typeof registerScheme>;
+
+
+export const loginSchema = z.object({
+    email: z.string().email({ message: "Invalid email address" }),
+    password: z
+        .string()
+        .min(6, "Minimum 6 characters")
+        .regex(/[A-Za-z]/, "Must include a letter")
+        .regex(/[0-9]/, "Must include a number"),
+});
+
+export type LoginType = z.infer<typeof loginSchema>;
